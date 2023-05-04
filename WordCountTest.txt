@@ -1,0 +1,31 @@
+检查配置
+hadoop version
+javac -version
+
+配置环境变量
+export HADOOP_CLASSPATH=$(hadoop classpath)
+echo $HADOOP_CLASSPATH
+
+在htfs里创建wordcount文件夹
+hadoop fs -mkdir /WordCount
+
+在WordCount中创建Input文件夹
+hadoop fs -mkdir /WordCount/Input
+
+将测试文件放入Input中
+hadoop fs -put /root/test.txt /WordCount/Input
+
+在root中创建一个tutorial_classes文件夹
+mkdir tutorial_classes
+
+将Java文件的类放入tutorial_classes中
+javac -classpath ${HADOOP_CLASSPATH} -d /root/tutorial_classes/ /root/WordCount.java
+
+打包到当前目录
+jar -cvf firstTutorial.jar -C tutorial_classes/ .
+
+运行java程序
+hadoop jar /root/firstTutorial.jar WordCount /WordCount/Input /WordCount/Onput
+
+查询结果
+hadoop dfs -cat /WordCount/Onput/*
